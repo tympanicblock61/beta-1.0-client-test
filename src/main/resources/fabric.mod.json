@@ -17,7 +17,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.cryptic.Main"
+      "net.fabricmc.cryptic.Cryptic"
     ]
   },
   "mixins": [

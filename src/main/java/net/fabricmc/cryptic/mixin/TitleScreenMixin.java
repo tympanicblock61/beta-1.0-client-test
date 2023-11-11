@@ -14,7 +14,7 @@ public class TitleScreenMixin {
 	private String splashText;
 
 	@Inject(at = @At("TAIL"), method = "init()V")
-	private void init(CallbackInfo info) {
+	private void init(CallbackInfo ci) {
 		splashText = "hello from tymp";
 	}
 }
