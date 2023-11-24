@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
-public class Cryptic implements ModInitializer, ClientModInitializer, TickEventListener {
+public class Cryptic implements ModInitializer, TickEventListener {
 	public static Minecraft mc = Minecraft.getMinecraft();
 	private MobEntityWrapper player = null;
 	private HealthBar playerHealth;
@@ -60,10 +60,6 @@ public class Cryptic implements ModInitializer, ClientModInitializer, TickEventL
 		}
 	}
 
-
-	@Override
-	public void onInitializeClient() {}
-
 	public static Map<Class<?>, List<Class<?>>> getEventsAndListeners(String packageName, Class<?> baseClass) {
 		Map<Class<?>, List<Class<?>>> implementingClasses = new HashMap<>();
 		Reflections reflections = new Reflections(new ConfigurationBuilder().forPackages(packageName).setScanners(Scanners.SubTypes));
@@ -72,7 +68,7 @@ public class Cryptic implements ModInitializer, ClientModInitializer, TickEventL
 			List<Class<?>> implementedInterfaces = new ArrayList<>();
 			Class<?>[] interfaces = subClass.getInterfaces();
 			for (Class<?> interfaceClass : interfaces) {
-				if (!interfaceClass.equals(baseClass)) { // Exclude the base interface itself
+				if (!interfaceClass.equals(baseClass)) {
 					implementedInterfaces.add(interfaceClass);
 				}
 			}
