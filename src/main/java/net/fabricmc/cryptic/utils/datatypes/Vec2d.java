@@ -28,7 +28,7 @@ public class Vec2d {
         this.y = y;
     }
 
-    protected Vec2d set(double x, double y) {
+    public Vec2d set(double x, double y) {
         this.x = x;
         this.y = y;
         return this;

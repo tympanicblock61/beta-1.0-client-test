@@ -1,5 +1,6 @@
 package net.fabricmc.cryptic.mixin;
 
+import net.fabricmc.cryptic.utils.LanguageTranslations;
 import net.minecraft.client.gui.screen.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,6 +16,6 @@ public class TitleScreenMixin {
 
 	@Inject(at = @At("TAIL"), method = "init()V")
 	private void init(CallbackInfo ci) {
-		splashText = "hello from tymp";
+		splashText = LanguageTranslations.instance.translate("client::title_screen::greeting");
 	}
 }

@@ -3,9 +3,8 @@
   "minVersion": "0.8",
   "package": "net.fabricmc.cryptic.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-  ],
   "client": [
+    "InGameHudMixin",
     "MinecraftMixin",
     "TitleScreenMixin"
   ],

@@ -34,7 +34,12 @@ public class RenderUtils extends DrawableHelper {
     // border
     // fill
     public void drawBackground(@NotNull Vec2i pos, @NotNull Vec2i size, @NotNull Vec2i colors, int border) {
-        fill(pos.x + border, pos.y - border, pos.x - size.x - 5, pos.y + size.y + 5, new Color(colors.x).getRGB());
-        fill(pos.x, pos.y, pos.x - size.x, pos.y + size.y, new Color(colors.y).getRGB());
+        fill(pos.x-border, pos.y-border, pos.x+size.x+border, pos.y+size.y+border, new Color(colors.x).getRGB());
+        fill(pos.x, pos.y, pos.x+size.x, pos.y+size.y, new Color(colors.y).getRGB());
+    }
+
+
+    public boolean inBox(@NotNull Vec2i clickPos, @NotNull Vec2i pos, @NotNull Vec2i size) {
+        return clickPos.x >= pos.x && clickPos.x <= pos.x + size.x && clickPos.y >= pos.y && clickPos.y <= pos.y + size.y;
     }
 }

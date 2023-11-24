@@ -1,34 +1,37 @@
 package net.fabricmc.cryptic.gui;
 
-import net.fabricmc.cryptic.Cryptic;
 import net.fabricmc.cryptic.utils.RenderUtils;
+import net.fabricmc.cryptic.utils.datatypes.Vec2i;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
-import org.lwjgl.input.Keyboard;
-
-import java.nio.charset.MalformedInputException;
 
 public class HudElement {
-    protected int x;
-    protected int y;
-    protected int width;
-    protected int height;
+    public Vec2i pos;
+    public Vec2i size;
     protected Minecraft mc = Minecraft.getMinecraft();
 
     public HudElement() {
-        x = 100;
-        y = 100;
-        width = 10;
-        height = 10;
+    }
+
+    public Vec2i getSize() {
+        return size;
+    }
+
+    public Vec2i getPos() {
+        return pos;
     }
 
     public void render(RenderUtils utils) {
     }
 
-    public void init() {
+    public void init(RenderUtils utils) {
     }
 
-    public void tick() {
+    public void drag(Vec2i to) {
+    }
+
+    public void hover(RenderUtils utils) {
+    }
+
+    public void tick(RenderUtils utils) {
     }
 }

@@ -33,10 +33,9 @@ public class Vec2i {
         this(MathHelper.floor(vec2d.x), MathHelper.floor(vec2d.y));
     }
 
-    protected Vec2i set(int x, int y) {
+    public void set(int x, int y) {
         this.x = x;
         this.y = y;
-        return this;
     }
 
     @Environment(value= EnvType.CLIENT)
@@ -144,9 +143,9 @@ public class Vec2i {
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof Vec3i) {
-            Vec3i vec3i = (Vec3i)object;
-            return vec3i.x == this.x && vec3i.y == this.y;
+        if (object instanceof Vec2i) {
+            Vec2i vec2i = (Vec2i)object;
+            return vec2i.x == this.x && vec2i.y == this.y;
         }
         return false;
     }
