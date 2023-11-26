@@ -23,8 +23,7 @@ public class LanguageTranslations {
 
     private static final Language lang = Language.getInstance();
     private static final Map<String, Map<String, String>> langs = new HashMap<>();
-    public static LanguageTranslations instance = new LanguageTranslations();
-    private static Pattern transPattern = Pattern.compile("\\S+::\\S+");
+    private static final Pattern transPattern = Pattern.compile("\\S+::\\S+");
 
 
     public LanguageTranslations() {

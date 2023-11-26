@@ -1,6 +1,8 @@
-package net.fabricmc.cryptic.gui;
+package net.fabricmc.cryptic.gui.screens;
 
+import net.fabricmc.cryptic.Cryptic;
 import net.fabricmc.cryptic.events.types.KeyEventListener;
+import net.fabricmc.cryptic.gui.Element;
 import net.fabricmc.cryptic.utils.KeybindUtils;
 import net.fabricmc.cryptic.utils.RenderUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
@@ -12,20 +14,30 @@ import java.util.LinkedHashSet;
 public class HudEditor extends Screen implements KeyEventListener {
     public static HudEditor INSTANCE = new HudEditor();
     public static Minecraft mc = Minecraft.getMinecraft();
-    public LinkedHashSet<HudElement> hudElements = new LinkedHashSet<>();
+    public LinkedHashSet<Element> elements = new LinkedHashSet<>();
     public RenderUtils render = new RenderUtils();
-    public HudElement clickedElement;
+    private Element clickedElement = null;
+    private Vec2i clickPos = null;
+    private Vec2i dragOffset = null;
     public boolean drawBackground = true;
-    public int borderSize = 5;
-    public Vec2i clickPos;
+    public int borderSize = 10;
     public KeybindUtils.Key keybind = KeybindUtils.Key.Period;
     public long opened;
     public Vec2i lastMousePos = Vec2i.create(0,0);
 
+    public HudEditor() {
+        Cryptic.EventBus.subscribe(Event.ID, this);
+    }
+
     @Override
     public void render(int mouseX, int mouseY, float tickDelta) {
+        if (clickedElement != null && !clickPos.equals(Vec2i.create(mouseX, mouseY))) {
+            int offsetX = mouseX - dragOffset.x;
+            int offsetY = mouseY - dragOffset.y;
+            clickedElement.drag(Vec2i.create(offsetX, offsetY));
+        }
         if (lastMousePos.equals(Vec2i.create(mouseX,mouseY))) {
-            for (HudElement element : hudElements) {
+            for (Element element : elements) {
                 Vec2i size;
                 if (drawBackground) {
                     size = Vec2i.create(element.getSize().x + 2 * borderSize, element.getSize().y + 2 * borderSize);
@@ -54,7 +66,7 @@ public class HudEditor extends Screen implements KeyEventListener {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
         if (button == 0) {
-            for (HudElement element : hudElements) {
+            for (Element element : elements) {
                 Vec2i size;
                 if (drawBackground) {
                     size = Vec2i.create(element.getSize().x + 2 * borderSize, element.getSize().y + 2 * borderSize);
@@ -62,6 +74,7 @@ public class HudEditor extends Screen implements KeyEventListener {
                 if (render.inBox(Vec2i.create(mouseX, mouseY), element.getPos(), size)) {
                     clickPos = Vec2i.create(mouseX, mouseY);
                     clickedElement = element;
+                    dragOffset = Vec2i.create(mouseX-element.pos.x, mouseY-element.pos.y);
                     break;
                 }
             }
@@ -71,14 +84,7 @@ public class HudEditor extends Screen implements KeyEventListener {
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int button) {
         Vec2i newPos = Vec2i.create(mouseX, mouseY);
-        if (newPos.equals(clickPos)) {
-            clickedElement = null;
-            return;
-        }
-        if (clickedElement != null && button == 0) {
-            clickedElement.drag(Vec2i.create(mouseX, mouseY));
-            clickedElement = null;
-        }
+        if (newPos.equals(clickPos) || (clickedElement != null && button == 0)) clickedElement = null;
     }
 
     @Override

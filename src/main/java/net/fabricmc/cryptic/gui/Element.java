@@ -4,12 +4,12 @@ import net.fabricmc.cryptic.utils.RenderUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
 import net.minecraft.client.Minecraft;
 
-public class HudElement {
+public class Element {
     public Vec2i pos;
     public Vec2i size;
     protected Minecraft mc = Minecraft.getMinecraft();
 
-    public HudElement() {
+    public Element() {
     }
 
     public Vec2i getSize() {

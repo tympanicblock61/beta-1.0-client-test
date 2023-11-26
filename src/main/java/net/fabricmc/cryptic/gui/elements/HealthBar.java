@@ -1,6 +1,6 @@
-package net.fabricmc.cryptic.gui.hudelements;
+package net.fabricmc.cryptic.gui.elements;
 
-import net.fabricmc.cryptic.gui.HudElement;
+import net.fabricmc.cryptic.gui.Element;
 import net.fabricmc.cryptic.utils.ClassUtils;
 import net.fabricmc.cryptic.utils.RenderUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HealthBar extends HudElement {
+public class HealthBar extends Element {
     public Vec2i pos;
     public Vec2i size;
     public int min;

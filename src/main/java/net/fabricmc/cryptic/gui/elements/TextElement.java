@@ -1,16 +1,14 @@
-package net.fabricmc.cryptic.gui.hudelements;
+package net.fabricmc.cryptic.gui.elements;
 
-import net.fabricmc.cryptic.gui.HudElement;
+import net.fabricmc.cryptic.gui.Element;
 import net.fabricmc.cryptic.utils.RenderUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.hud.ChatHud;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class TextElement extends HudElement {
+public class TextElement extends Element {
     String message;
     float dragPercent = 0f;
     Vec2i dragTo;

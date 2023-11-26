@@ -1,13 +1,33 @@
 package net.fabricmc.cryptic.gui;
 
+import net.fabricmc.cryptic.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Module {
     protected Minecraft mc = Minecraft.getMinecraft();
-    public Module() {
+    public final String name;
+    public final String description;
+    public boolean active = false;
+    public List<Setting<?>> settings = new ArrayList<>();
+
+
+    public Module(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
-    public static void onTick() {
+    public void render(int x, int y, @NotNull RenderUtils utils) {
+        utils.drawWithShadow(this.name, x, y, new Color(0xffffff).getRGB());
+    }
 
+    public void onActivate() {
+    }
+
+    public void tick() {
     }
 }
