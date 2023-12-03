@@ -3,6 +3,7 @@ package net.fabricmc.cryptic.mixin;
 import net.fabricmc.cryptic.gui.screens.ClickGui;
 import net.fabricmc.cryptic.gui.screens.HudEditor;
 import net.fabricmc.cryptic.gui.Element;
+import net.fabricmc.cryptic.gui.screens.SettingsScreen;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -26,7 +27,7 @@ public class InGameHudMixin {
         boolean hasScreenOpen = bl;
         int mouseX = i2;
         int mouseY = j2;
-        if (!(field_1166.currentScreen == ClickGui.INSTANCE)) {
+        if (!(field_1166.currentScreen == ClickGui.INSTANCE) && !(field_1166.currentScreen == SettingsScreen.INSTANCE)) {
             for (Element element : HudEditor.INSTANCE.elements) {
                 element.init(HudEditor.INSTANCE.render);
                 if (HudEditor.INSTANCE.drawBackground) HudEditor.INSTANCE.render.drawBackground(element.getPos(), element.getSize(), Vec2i.create(0x000000, 0x634b4b), HudEditor.INSTANCE.borderSize);

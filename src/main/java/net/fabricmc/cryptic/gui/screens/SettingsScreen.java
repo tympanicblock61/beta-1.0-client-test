@@ -3,8 +3,10 @@ package net.fabricmc.cryptic.gui.screens;
 import net.fabricmc.cryptic.gui.Module;
 import net.fabricmc.cryptic.gui.Setting;
 import net.fabricmc.cryptic.utils.KeybindUtils;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
@@ -16,8 +18,10 @@ public class SettingsScreen extends Screen {
     @Override
     public void render(int mouseX, int mouseY, float tickDelta) {
         if (module != null) {
-            // TODO render settings
-
+            int startX = (module.mc.width/2)-100;
+            int startY = (module.mc.height+50);
+            DrawableHelper.fill(startX, startY, startX+200, startY+(module.mc.height), new Color(0x00ff00).getRGB());
+            System.out.println(module);
         }
     }
 

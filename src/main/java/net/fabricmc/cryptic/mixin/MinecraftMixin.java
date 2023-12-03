@@ -20,9 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
 
-import static java.sql.Types.NULL;
 import static net.fabricmc.cryptic.Cryptic.EventBus;
-import static org.lwjgl.nanovg.NanoVGGL3.*;
 
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin {

@@ -23,8 +23,6 @@ dependencies {
 	implementation group: 'de.florianmichael', name: 'DietrichEvents2', version: '1.1.4'
 	implementation group: 'fastutil', name: 'fastutil', version: '5.0.9'
 	implementation group: 'org.joml', name: 'joml', version: '1.10.5'
-	implementation 'org.lwjgl:lwjgl:3.3.0'
-	implementation 'org.lwjgl:lwjgl-nanovg:3.3.0'
 }
 
 processResources {

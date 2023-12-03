@@ -110,6 +110,7 @@ public class ClickGui extends Screen implements KeyEventListener, MouseEventList
                     RenderUtils.fill(x,y, x+category.getLength(), mc.textRenderer.fontHeight, 0x00);
                     if (utils.inBox(mouse, Vec2i.create(x, y), Vec2i.create(category.getLength(), mc.textRenderer.fontHeight))) {
                         SettingsScreen.INSTANCE.module = module;
+                        mc.openScreen(SettingsScreen.INSTANCE);
                         break;
                     }
                 }

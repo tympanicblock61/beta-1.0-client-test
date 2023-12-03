@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Module {
-    protected Minecraft mc = Minecraft.getMinecraft();
+    public Minecraft mc = Minecraft.getMinecraft();
     public final String name;
     public final String description;
     public boolean active = false;
