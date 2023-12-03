@@ -18,11 +18,14 @@ public class SettingsScreen extends Screen {
     @Override
     public void render(int mouseX, int mouseY, float tickDelta) {
         if (module != null) {
-            int startX = (module.mc.width/2)-100;
-            int startY = (module.mc.height+50);
-            DrawableHelper.fill(startX, startY, startX+200, startY+(module.mc.height), new Color(0x00ff00).getRGB());
+            int startX = (module.mc.width/2);
+            int startY = 50;
+            System.out.println(startX);
+            System.out.println(startY);
+            DrawableHelper.fill(startX, startY, startX+1, startY+(module.mc.height), new Color(0x00ff00).getRGB());
             System.out.println(module);
         }
+        // wide again
     }
 
     @Override
