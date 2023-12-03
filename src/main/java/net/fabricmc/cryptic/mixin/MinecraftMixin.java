@@ -56,7 +56,6 @@ public abstract class MinecraftMixin {
 
         System.out.println(scaleX);
         System.out.println(scaleY);
-        // test 3
     }
 
     @Inject(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/i;method_839(IZ)V", ordinal = 0, shift = At.Shift.BEFORE))
