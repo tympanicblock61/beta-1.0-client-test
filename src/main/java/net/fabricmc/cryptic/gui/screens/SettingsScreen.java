@@ -25,7 +25,7 @@ public class SettingsScreen extends Screen {
             DrawableHelper.fill(startX, startY, startX+1, startY+(module.mc.height), new Color(0x00ff00).getRGB());
             System.out.println(module);
         }
-        // minegame
+        // big iron
     }
 
     @Override
