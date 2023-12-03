@@ -5,6 +5,7 @@ import net.fabricmc.cryptic.events.types.KeyEventListener;
 import net.fabricmc.cryptic.events.types.MouseEventListener;
 import net.fabricmc.cryptic.gui.Category;
 import net.fabricmc.cryptic.gui.Module;
+import net.fabricmc.cryptic.gui.font.FontRenderer;
 import net.fabricmc.cryptic.utils.KeybindUtils;
 import net.fabricmc.cryptic.utils.RenderUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
@@ -102,6 +103,17 @@ public class ClickGui extends Screen implements KeyEventListener, MouseEventList
                     break;
                 }
             }
+            for (Category category : categories) {
+                for (Module module : category.modules) {
+                    int x = category.location.x;
+                    int y = category.location.y + (category.modules.indexOf(module) * mc.textRenderer.fontHeight)+mc.textRenderer.fontHeight;
+                    RenderUtils.fill(x,y, x+category.getLength(), mc.textRenderer.fontHeight, 0x00);
+                    if (utils.inBox(mouse, Vec2i.create(x, y), Vec2i.create(category.getLength(), mc.textRenderer.fontHeight))) {
+                        SettingsScreen.INSTANCE.module = module;
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -126,6 +138,7 @@ public class ClickGui extends Screen implements KeyEventListener, MouseEventList
             INSTANCE.opened = System.currentTimeMillis();
             mc.openScreen(INSTANCE);
         }
+
     }
 
     @Override

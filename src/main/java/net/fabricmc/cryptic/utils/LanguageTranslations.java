@@ -13,11 +13,13 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class LanguageTranslations {
 
@@ -32,8 +34,11 @@ public class LanguageTranslations {
             Map<String, String> translatables = new HashMap<>();
             String[] lines = readLocalFile("assets/languages/"+lang.split("->")[1]).split("\n");
             for (String line : lines) {
-                String[] parts = line.split("->");
-                translatables.put(parts[0], parts[1]);
+                if (!line.startsWith("~")) {
+                    List<String> parts = Arrays.stream(line.split("->")).collect(Collectors.toList());
+                    if (parts.size() != 2) parts.add("");
+                    translatables.put(parts.get(0), parts.get(1));
+                }
             }
             langs.put(lang.split("->")[0], translatables);
         }

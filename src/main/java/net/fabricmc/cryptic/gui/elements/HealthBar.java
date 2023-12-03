@@ -4,6 +4,7 @@ import net.fabricmc.cryptic.gui.Element;
 import net.fabricmc.cryptic.utils.ClassUtils;
 import net.fabricmc.cryptic.utils.RenderUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ public class HealthBar extends Element {
     public HealthBar(Vec2i pos, Vec2i size, int min, int max) {
         this.pos = pos;
         this.size = size;
-        System.out.println(size);
         this.min = min;
         this.max = max;
         this.percent = this.min;
@@ -45,12 +45,19 @@ public class HealthBar extends Element {
         } else RenderUtils.fill(pos.x, pos.y, pos.x+percent, pos.y+size.y, new Color(0x00FF00).getRGB());
     }
 
+    @Override
     public Vec2i getSize() {
         return size;
     }
 
+    @Override
     public Vec2i getPos() {
         return pos;
+    }
+
+    @Override
+    public void drag(@NotNull Vec2i to) {
+        pos.set(to.x, to.y);
     }
 
     public void add() {

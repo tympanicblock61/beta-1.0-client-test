@@ -1,6 +1,5 @@
 package net.fabricmc.cryptic.mixin;
 
-import de.florianmichael.dietrichevents2.DietrichEvents2;
 import net.fabricmc.cryptic.events.types.KeyEventListener;
 import net.fabricmc.cryptic.events.types.MouseEventListener;
 import net.fabricmc.cryptic.events.types.TickEventListener;
@@ -8,6 +7,8 @@ import net.fabricmc.cryptic.utils.KeybindUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2d;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftApplet;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +18,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.awt.*;
+
+import static java.sql.Types.NULL;
 import static net.fabricmc.cryptic.Cryptic.EventBus;
+import static org.lwjgl.nanovg.NanoVGGL3.*;
 
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin {
@@ -25,6 +30,11 @@ public abstract class MinecraftMixin {
     @Shadow private static Minecraft instance;
     @Unique
     Vec2i[] prevPos = new Vec2i[]{Vec2i.create(0,0), Vec2i.create(0,0), Vec2i.create(0,0)};
+    @Unique
+    Frame frame = null;
+
+    @Shadow
+    protected MinecraftApplet applet;
 
     @Inject(method = "tick()V",at = @At("HEAD"))
     public void preTick(CallbackInfo ci) {
@@ -34,6 +44,18 @@ public abstract class MinecraftMixin {
     @Inject(method = "tick()V", at = @At("TAIL"))
     public void postTick(CallbackInfo ci) {
         EventBus.post(TickEventListener.Event.ID, new TickEventListener.Event(TickEventListener.Type.Post));
+    }
+
+    @Inject(method = "initializeGame", at = @At("HEAD"))
+    private void init(CallbackInfo ci) {
+        Dimension currentSize = applet.getSize();
+        Dimension preferredSize = applet.getPreferredSize();
+
+        int scaleX = currentSize.width / preferredSize.width;
+        int scaleY = currentSize.height / preferredSize.height;
+
+        System.out.println(scaleX);
+        System.out.println(scaleY);
     }
 
     @Inject(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/i;method_839(IZ)V", ordinal = 0, shift = At.Shift.BEFORE))

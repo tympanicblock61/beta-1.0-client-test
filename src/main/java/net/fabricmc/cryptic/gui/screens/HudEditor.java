@@ -74,7 +74,7 @@ public class HudEditor extends Screen implements KeyEventListener {
                 if (render.inBox(Vec2i.create(mouseX, mouseY), element.getPos(), size)) {
                     clickPos = Vec2i.create(mouseX, mouseY);
                     clickedElement = element;
-                    dragOffset = Vec2i.create(mouseX-element.pos.x, mouseY-element.pos.y);
+                    dragOffset = Vec2i.create(mouseX-element.getPos().x, mouseY-element.getPos().y);
                     break;
                 }
             }

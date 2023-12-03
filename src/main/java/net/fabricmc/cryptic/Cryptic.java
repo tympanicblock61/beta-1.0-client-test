@@ -6,6 +6,7 @@ import net.fabricmc.cryptic.events.IEvent;
 import net.fabricmc.cryptic.events.types.TickEventListener;
 import net.fabricmc.cryptic.gui.Category;
 import net.fabricmc.cryptic.gui.Module;
+import net.fabricmc.cryptic.gui.font.FontRenderer;
 import net.fabricmc.cryptic.gui.modules.KillAura;
 import net.fabricmc.cryptic.gui.modules.testmodule1;
 import net.fabricmc.cryptic.gui.modules.testmodule2;
@@ -17,6 +18,7 @@ import net.fabricmc.cryptic.utils.LanguageTranslations;
 import net.fabricmc.cryptic.utils.MobEntityWrapper;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.font.TextRenderer;
 
 @SuppressWarnings("unchecked")
 public class Cryptic implements ModInitializer, TickEventListener {

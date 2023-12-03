@@ -10,7 +10,8 @@ public class IntSetting extends Setting<Integer> {
     public int min;
     public int max;
 
-    public IntSetting(int min, int max) {
+    public IntSetting(String name, String description, Integer defaultValue, int min, int max) {
+        super(name, description, defaultValue);
         this.min = min;
         this.max = max;
     }
