@@ -1,7 +1,6 @@
 package net.fabricmc.cryptic.mixin;
 
 import net.fabricmc.cryptic.Cryptic;
-import net.fabricmc.cryptic.utils.LanguageTranslations;
 import net.minecraft.client.gui.screen.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

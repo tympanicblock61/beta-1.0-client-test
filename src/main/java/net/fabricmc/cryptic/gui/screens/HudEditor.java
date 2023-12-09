@@ -31,20 +31,16 @@ public class HudEditor extends Screen implements KeyEventListener {
 
     @Override
     public void render(int mouseX, int mouseY, float tickDelta) {
+        Vec2i mousePos = Vec2i.create(mouseX, mouseY);
         if (clickedElement != null && !clickPos.equals(Vec2i.create(mouseX, mouseY))) {
             int offsetX = mouseX - dragOffset.x;
             int offsetY = mouseY - dragOffset.y;
             clickedElement.drag(Vec2i.create(offsetX, offsetY));
         }
-        if (lastMousePos.equals(Vec2i.create(mouseX,mouseY))) {
+        if (lastMousePos.equals(mousePos)) {
             for (Element element : elements) {
-                Vec2i size;
-                if (drawBackground) {
-                    size = Vec2i.create(element.getSize().x + 2 * borderSize, element.getSize().y + 2 * borderSize);
-                } else size = Vec2i.create(element.getSize().x, element.getSize().y);
-                if (render.inBox(Vec2i.create(mouseX, mouseY), element.getPos(), size)) {
-                    element.hover(render);
-                    System.out.println(element);
+                if (element.inBox(mousePos)) {
+                    element.hover();
                     break;
                 }
             }
@@ -57,7 +53,8 @@ public class HudEditor extends Screen implements KeyEventListener {
         System.out.println("screen key press");
         System.out.println(KeybindUtils.Key.getByCode(code).name);
         System.out.println(code);
-        if ((code == keybind.keyCode || code == KeybindUtils.Key.Escape.keyCode) && System.currentTimeMillis() - opened >= 200) {
+        KeybindUtils.Key key = KeybindUtils.Key.getByCode(code);
+        if ((key == keybind || key == KeybindUtils.Key.Escape) && System.currentTimeMillis() - opened >= 200) {
             mc.openScreen(null);
             mc.closeScreen();
         }
@@ -65,18 +62,28 @@ public class HudEditor extends Screen implements KeyEventListener {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
+        Vec2i mousePos = Vec2i.create(mouseX, mouseY);
         if (button == 0) {
             for (Element element : elements) {
-                Vec2i size;
-                if (drawBackground) {
-                    size = Vec2i.create(element.getSize().x + 2 * borderSize, element.getSize().y + 2 * borderSize);
-                } else size = Vec2i.create(element.getSize().x, element.getSize().y);
-                if (render.inBox(Vec2i.create(mouseX, mouseY), element.getPos(), size)) {
-                    clickPos = Vec2i.create(mouseX, mouseY);
+                if (element.inBox(mousePos)) {
+                    clickPos = mousePos;
                     clickedElement = element;
                     dragOffset = Vec2i.create(mouseX-element.getPos().x, mouseY-element.getPos().y);
                     break;
                 }
+            }
+        } else if (button == 1) {
+            boolean inElement = false;
+            for (Element element : elements) {
+                if (element.inBox(mousePos)) {
+                    inElement = true;
+                    break;
+                }
+            }
+            if (!inElement) {
+                ElementPicker.INSTANCE.clickPos = mousePos;
+                field_1229.currentScreen = ElementPicker.INSTANCE;
+                field_1229.openScreen(ElementPicker.INSTANCE);
             }
         }
     }

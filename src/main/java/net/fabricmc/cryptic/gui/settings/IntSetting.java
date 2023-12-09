@@ -17,7 +17,7 @@ public class IntSetting extends Setting<Integer> {
     }
 
     @Override
-    public void render(int x, int y ,RenderUtils utils) {
-        RenderUtils.fill(x, y, x+10, y+10, new Color(0x180080).getRGB());
+    public void render(int x, int y, int mouseX, int mouseY) {
+        fill(x, y, x+10, y+10, new Color(0x180080).getRGB());
     }
 }

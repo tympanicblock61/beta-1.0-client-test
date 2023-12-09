@@ -18,6 +18,9 @@
   "entrypoints": {
     "main": [
       "net.fabricmc.cryptic.Cryptic"
+    ],
+    "client": [
+      "net.fabricmc.cryptic.Cryptic"
     ]
   },
   "mixins": [

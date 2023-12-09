@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Module {
+public class Module extends RenderedObject {
     public Minecraft mc = Minecraft.getMinecraft();
     public final String name;
     public final String description;
@@ -24,13 +24,12 @@ public class Module {
         this.description = description;
     }
 
-    public void render(int x, int y, @NotNull RenderUtils utils) {
-        utils.drawWithShadow(this.name, x, y, new Color(0xffffff).getRGB());
+    @Override
+    public void render(int x, int y, int mouseX, int mouseY) {
+        drawWithShadow(this.name, x, y, new Color(0xffffff).getRGB());
     }
 
     public void onActivate() {
     }
 
-    public void tick() {
-    }
 }

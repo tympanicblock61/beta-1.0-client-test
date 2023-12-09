@@ -1,8 +1,13 @@
 package net.fabricmc.cryptic.mixin;
 
+import net.fabricmc.cryptic.Cryptic;
 import net.fabricmc.cryptic.events.types.KeyEventListener;
 import net.fabricmc.cryptic.events.types.MouseEventListener;
 import net.fabricmc.cryptic.events.types.TickEventListener;
+import net.fabricmc.cryptic.gui.screens.ClickGui;
+import net.fabricmc.cryptic.gui.screens.ElementPicker;
+import net.fabricmc.cryptic.gui.screens.HudEditor;
+import net.fabricmc.cryptic.gui.screens.SettingsScreen;
 import net.fabricmc.cryptic.utils.KeybindUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2d;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
@@ -28,8 +33,6 @@ public abstract class MinecraftMixin {
     @Shadow private static Minecraft instance;
     @Unique
     Vec2i[] prevPos = new Vec2i[]{Vec2i.create(0,0), Vec2i.create(0,0), Vec2i.create(0,0)};
-    @Unique
-    Frame frame = null;
 
     @Shadow
     protected MinecraftApplet applet;
@@ -42,18 +45,6 @@ public abstract class MinecraftMixin {
     @Inject(method = "tick()V", at = @At("TAIL"))
     public void postTick(CallbackInfo ci) {
         EventBus.post(TickEventListener.Event.ID, new TickEventListener.Event(TickEventListener.Type.Post));
-    }
-
-    @Inject(method = "initializeGame", at = @At("HEAD"))
-    private void init(CallbackInfo ci) {
-        Dimension currentSize = applet.getSize();
-        Dimension preferredSize = applet.getPreferredSize();
-
-        int scaleX = currentSize.width / preferredSize.width;
-        int scaleY = currentSize.height / preferredSize.height;
-
-        System.out.println(scaleX);
-        System.out.println(scaleY);
     }
 
     @Inject(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/i;method_839(IZ)V", ordinal = 0, shift = At.Shift.BEFORE))

@@ -3,20 +3,13 @@ package net.fabricmc.cryptic.gui.elements;
 import net.fabricmc.cryptic.gui.Element;
 import net.fabricmc.cryptic.gui.font.FontRenderer;
 import net.fabricmc.cryptic.gui.screens.HudEditor;
-import net.fabricmc.cryptic.utils.RenderUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.BufferUtils;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import static org.lwjgl.opengl.GL11.*;
 
 public class TextElement extends Element {
     String message;
@@ -27,15 +20,23 @@ public class TextElement extends Element {
     public Font currentFont = Arrays.stream(GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts()).map(font -> font.deriveFont(Font.PLAIN, 12)).collect(Collectors.toList()).get(0);
     FontRenderer renderer = null;
 
+    public TextElement(Vec2i pos, Vec2i size) {
+        message = "Default Text";
+        this.pos = pos;
+        wasHovered = false;
+        wasDragged = false;
+    }
+
     public TextElement(String message) {
         this.message = message;
         pos = Vec2i.create(300, 100);
         wasHovered = false;
+        wasDragged = false;
     }
 
 
     @Override
-    public void init(RenderUtils utils) {
+    public void init() {
         int width = mc.textRenderer.getStringWidth(message);
         int height = mc.textRenderer.getHeightSplit(message, mc.textRenderer.getStringWidth(message))/2;
         size = Vec2i.create(width, height);
@@ -49,8 +50,7 @@ public class TextElement extends Element {
     }
 
     @Override
-    public void render(@NotNull RenderUtils utils) {
-        String words = "hello lol";
+    public void render() {
         if (wasDragged) {
             if (dragPercent >= 1.0f) {
                 dragPercent = 0f;
@@ -60,9 +60,9 @@ public class TextElement extends Element {
                 pos = lerp(pos, dragTo, dragPercent);
             }
         } else if (wasHovered) {
-            RenderUtils.fill(pos.x, pos.y, pos.x+size.x, pos.y+size.y, new Color(0x6E000000, true).getRGB());
+            fill(pos.x, pos.y, pos.x+size.x, pos.y+size.y, new Color(0x6E000000, true).getRGB());
         }
-        utils.drawWithShadow(message, pos.x, pos.y, new Color(0x0000ff).getRGB());
+        drawWithShadow(message, pos.x, pos.y, new Color(0x0000ff).getRGB());
         wasHovered = false;
 
         if (renderer != null) {
@@ -73,7 +73,7 @@ public class TextElement extends Element {
     }
 
     @Override
-    public void hover(RenderUtils utils) {
+    public void hover() {
         this.wasHovered = true;
         if (renderer == null) {
             renderer = new FontRenderer(mc.field_3823, "/font/default.png", mc.textureManager, false);

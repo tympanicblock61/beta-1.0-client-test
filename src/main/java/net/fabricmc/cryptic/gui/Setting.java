@@ -4,7 +4,7 @@ import net.fabricmc.cryptic.utils.KeybindUtils;
 import net.fabricmc.cryptic.utils.RenderUtils;
 import net.minecraft.client.gui.screen.Screen;
 
-public class Setting<V> {
+public class Setting<V> extends RenderedObject {
 
     private V value;
     public final V defaultValue;
@@ -28,24 +28,6 @@ public class Setting<V> {
 
     public V get() {
         return value;
-    }
-
-    public void click(int mouseX, int mouseY, int tickDelta) {
-    }
-
-    public void keyPress(KeybindUtils.Key key) {
-    }
-
-    public void mouseReleased(int mouseX, int mouseY, int button) {
-    }
-
-    public void mouseClicked(int mouseX, int mouseY, int button) {
-    }
-
-    public void render(int x, int y, RenderUtils utils) {
-    }
-
-    public void tick() {
     }
 
     public void onChange() {

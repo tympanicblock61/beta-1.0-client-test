@@ -2,7 +2,6 @@ package net.fabricmc.cryptic.gui.elements;
 
 import net.fabricmc.cryptic.gui.Element;
 import net.fabricmc.cryptic.utils.ClassUtils;
-import net.fabricmc.cryptic.utils.RenderUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,13 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HealthBar extends Element {
-    public Vec2i pos;
-    public Vec2i size;
     public int min;
     public int max;
     public int percent;
     public int one_percent;
     public boolean finished = false;
+
+    public HealthBar(Vec2i pos, Vec2i size) {
+        this(pos, size, 0, 10);
+    }
 
     public HealthBar(Vec2i pos, Vec2i size, int min, int max) {
         this.pos = pos;
@@ -29,30 +30,11 @@ public class HealthBar extends Element {
     }
 
     @Override
-    public void render(RenderUtils utils) {
-        //context.fillStyle = "black"
-        //context.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight())
-        //context.fillStyle = "red"
-        RenderUtils.fill(pos.x, pos.y, pos.x+size.x, pos.y+size.y, new Color(0xFF0000).getRGB());
-        //context.fillRect(this.x, this.y, this.length, this.height)
-        //context.fillStyle = "green"
-        //if (this.percent > this.length) {
-        //    context.fillRect(this.x, this.y, this.length, this.height)
-        //} else context.fillRect(this.x, this.y, this.percent, this.height)
-
+    public void render() {
+        fill(pos.x, pos.y, pos.x+size.x, pos.y+size.y, new Color(0xFF0000).getRGB());
         if (percent > size.x) {
-            RenderUtils.fill(pos.x, pos.y, pos.x+size.x, pos.y+size.y, new Color(0x00FF00).getRGB());
-        } else RenderUtils.fill(pos.x, pos.y, pos.x+percent, pos.y+size.y, new Color(0x00FF00).getRGB());
-    }
-
-    @Override
-    public Vec2i getSize() {
-        return size;
-    }
-
-    @Override
-    public Vec2i getPos() {
-        return pos;
+            fill(pos.x, pos.y, pos.x+size.x, pos.y+size.y, new Color(0x00FF00).getRGB());
+        } else fill(pos.x, pos.y, pos.x+percent, pos.y+size.y, new Color(0x00FF00).getRGB());
     }
 
     @Override
@@ -65,7 +47,7 @@ public class HealthBar extends Element {
     }
 
     @Override
-    public void tick(RenderUtils utils) {
+    public void tick() {
         if (mc.playerEntity != null && !finished) {
             List<Class<?>> types = new ArrayList<>(2);
             types.add(int.class);

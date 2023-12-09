@@ -5,21 +5,17 @@ import net.minecraft.client.ab;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
-import org.lwjgl.BufferUtils;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
 
 public class FontRenderer extends TextRenderer {
 
     Font font = new Font("Arial", Font.PLAIN, 12);
     public double scale = 1;
-    DrawableHelper drawableHelper = new DrawableHelper();
 
     public FontRenderer(ab arg, String string, TextureManager textureManager, boolean bl) {
         super(arg, string, textureManager, bl);
@@ -62,31 +58,6 @@ public class FontRenderer extends TextRenderer {
         for (int x = 0; x<textImage.getWidth(); x++ )
             for (int y = 0; y<textImage.getHeight(); y++)
                DrawableHelper.fill(posX+x, posY+y, posX+x+1, posY+y+1, textImage.getRGB(x, y));
-        //TextureManager textureManager = Minecraft.getMinecraft().textureManager;
-        //int texture = textureManager.method_1417(textImage);
-        //GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        //textureManager.bindTexture(texture);
-        //drawableHelper.drawTexture(posX, posY, 0, 0, width, height);
-
-        /*int id = glGenTextures();
-        ByteBuffer buffer = genByteBuffer(textImage);
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, id);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, textImage.getWidth(), textImage.getHeight(), 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, buffer);
-        */
-    }
-
-    public ByteBuffer genByteBuffer(@NotNull BufferedImage image) {
-        int[] pixels = new int[image.getHeight() * image.getWidth()];
-        image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
-        ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * 4);
-        buffer.asIntBuffer().put(pixels).flip();
-        return buffer;
     }
 }
 

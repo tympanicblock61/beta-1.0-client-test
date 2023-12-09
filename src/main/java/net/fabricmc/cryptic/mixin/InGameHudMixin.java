@@ -1,12 +1,15 @@
 package net.fabricmc.cryptic.mixin;
 
+import net.fabricmc.cryptic.Cryptic;
 import net.fabricmc.cryptic.gui.screens.ClickGui;
+import net.fabricmc.cryptic.gui.screens.ElementPicker;
 import net.fabricmc.cryptic.gui.screens.HudEditor;
 import net.fabricmc.cryptic.gui.Element;
 import net.fabricmc.cryptic.gui.screens.SettingsScreen;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.hud.InGameHud;
+import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,11 +30,11 @@ public class InGameHudMixin {
         boolean hasScreenOpen = bl;
         int mouseX = i2;
         int mouseY = j2;
-        if (!(field_1166.currentScreen == ClickGui.INSTANCE) && !(field_1166.currentScreen == SettingsScreen.INSTANCE)) {
+        if (!(field_1166.currentScreen instanceof ClickGui || field_1166.currentScreen instanceof SettingsScreen || field_1166.currentScreen instanceof ElementPicker) && Cryptic.loaded) {
             for (Element element : HudEditor.INSTANCE.elements) {
-                element.init(HudEditor.INSTANCE.render);
-                if (HudEditor.INSTANCE.drawBackground) HudEditor.INSTANCE.render.drawBackground(element.getPos(), element.getSize(), Vec2i.create(0x000000, 0x634b4b), HudEditor.INSTANCE.borderSize);
-                element.render(HudEditor.INSTANCE.render);
+                element.init();
+                if (HudEditor.INSTANCE.drawBackground) element.drawBackground(Vec2i.create(0x000000, 0x634b4b));
+                element.render();
             }
         }
     }
@@ -39,6 +42,6 @@ public class InGameHudMixin {
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo ci) {
-        for (Element element : HudEditor.INSTANCE.elements) element.tick(HudEditor.INSTANCE.render);
+        HudEditor.INSTANCE.elements.forEach(Element::tick);
     }
 }

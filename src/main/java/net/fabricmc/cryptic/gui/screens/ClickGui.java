@@ -5,20 +5,14 @@ import net.fabricmc.cryptic.events.types.KeyEventListener;
 import net.fabricmc.cryptic.events.types.MouseEventListener;
 import net.fabricmc.cryptic.gui.Category;
 import net.fabricmc.cryptic.gui.Module;
-import net.fabricmc.cryptic.gui.font.FontRenderer;
 import net.fabricmc.cryptic.utils.KeybindUtils;
 import net.fabricmc.cryptic.utils.RenderUtils;
 import net.fabricmc.cryptic.utils.datatypes.Vec2i;
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.LinkedHashSet;
 
 import static net.fabricmc.cryptic.utils.KeybindUtils.Key;
 
@@ -27,7 +21,7 @@ public class ClickGui extends Screen implements KeyEventListener, MouseEventList
     public Key keybind = Key.RightShift;
     public long opened;
     public Minecraft mc = Minecraft.getMinecraft();
-    public List<Category> categories = new ArrayList<Category>();
+    public LinkedHashSet<Category> categories = new LinkedHashSet<>();
     public RenderUtils utils = new RenderUtils();
     private static Vec2i clickPos = null;
     private static Category clickedCategory = null;
@@ -52,7 +46,10 @@ public class ClickGui extends Screen implements KeyEventListener, MouseEventList
             int offsetY = mouseY - dragOffset.y;
             clickedCategory.drag(Vec2i.create(offsetX, offsetY));
         }
-        categories.forEach((category -> category.render(utils)));
+        for (Category category : categories) {
+            category.init();
+            category.render(mouseX, mouseY);
+        }
     }
 
     @Override
@@ -77,19 +74,19 @@ public class ClickGui extends Screen implements KeyEventListener, MouseEventList
         Vec2i mouse = Vec2i.create(mouseX, mouseY);
         if (button == 0) {
             for (Category category : categories) {
-                if (utils.inBox(mouse, category.location, Vec2i.create(category.getLength(), mc.textRenderer.fontHeight))) {
+                if (utils.inBox(mouse, category.getPos(), Vec2i.create(category.getWidth(), mc.textRenderer.fontHeight))) {
                     clickPos = Vec2i.create(mouseX, mouseY);
                     clickedCategory = category;
-                    dragOffset = Vec2i.create(mouseX - category.location.x, mouseY - category.location.y);
+                    dragOffset = Vec2i.create(mouseX - category.getPos().x, mouseY - category.getPos().y);
                     break;
                 }
             }
             for (Category category : categories) {
                 for (Module module : category.modules) {
-                    int x = category.location.x;
-                    int y = category.location.y + (category.modules.indexOf(module) * mc.textRenderer.fontHeight)+mc.textRenderer.fontHeight;
-                    RenderUtils.fill(x,y, x+category.getLength(), mc.textRenderer.fontHeight, 0x00);
-                    if (utils.inBox(mouse, Vec2i.create(x, y), Vec2i.create(category.getLength(), mc.textRenderer.fontHeight))) {
+                    int x = category.getPos().x;
+                    int y = category.getPos().y + (category.modules.indexOf(module) * mc.textRenderer.fontHeight)+mc.textRenderer.fontHeight;
+                    RenderUtils.fill(x,y, x+category.getWidth(), mc.textRenderer.fontHeight, 0x00);
+                    if (utils.inBox(mouse, Vec2i.create(x, y), Vec2i.create(category.getWidth(), mc.textRenderer.fontHeight))) {
                         module.active = !module.active;
                         module.onActivate();
                         break;
@@ -98,17 +95,17 @@ public class ClickGui extends Screen implements KeyEventListener, MouseEventList
             }
         } else if (button == 1) {
             for (Category category : categories) {
-                if (utils.inBox(mouse, category.location, Vec2i.create(category.getLength(), mc.textRenderer.fontHeight))) {
+                if (utils.inBox(mouse, category.getPos(), Vec2i.create(category.getWidth(), mc.textRenderer.fontHeight))) {
                     category.closed = !category.closed;
                     break;
                 }
             }
             for (Category category : categories) {
                 for (Module module : category.modules) {
-                    int x = category.location.x;
-                    int y = category.location.y + (category.modules.indexOf(module) * mc.textRenderer.fontHeight)+mc.textRenderer.fontHeight;
-                    RenderUtils.fill(x,y, x+category.getLength(), mc.textRenderer.fontHeight, 0x00);
-                    if (utils.inBox(mouse, Vec2i.create(x, y), Vec2i.create(category.getLength(), mc.textRenderer.fontHeight))) {
+                    int x = category.getPos().x;
+                    int y = category.getPos().y + (category.modules.indexOf(module) * mc.textRenderer.fontHeight)+mc.textRenderer.fontHeight;
+                    RenderUtils.fill(x,y, x+category.getWidth(), mc.textRenderer.fontHeight, 0x00);
+                    if (utils.inBox(mouse, Vec2i.create(x, y), Vec2i.create(category.getWidth(), mc.textRenderer.fontHeight))) {
                         SettingsScreen.INSTANCE.module = module;
                         mc.openScreen(SettingsScreen.INSTANCE);
                         break;
